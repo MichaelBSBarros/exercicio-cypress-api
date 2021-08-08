@@ -1,0 +1,36 @@
+{
+  "name": "exercicio-cypress-api",
+  "version": "1.0.0",
+  "description": "A ideia aqui é construirmos um exemplo de implementação de um teste de contrato \r automatizado utilizando a ferramenta Cypress, tendo a execução guiada pelo Cucumber e a \r validação de contrato com json-schema e o pluing ajv",
+  "main": "index.js",
+  "scripts": {
+    "cy:open": "cypress open",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichaelBSBarros/exercicio-cypress-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MichaelBSBarros/exercicio-cypress-api/issues"
+  },
+  "homepage": "https://github.com/MichaelBSBarros/exercicio-cypress-api#readme",
+  "devDependencies": {
+    "ajv": "^8.6.2",
+    "cypress": "^8.2.0",
+    "cypress-cucumber-preprocessor": "^4.2.0",
+    "faker": "^5.5.3",
+    "fs-extra": "^10.0.0"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": false, 
+    "step_definitions": "cypress/integration/step_definitions/",
+    "cucumberJson": {
+      "generate": false,
+      "outputFolder": "reports/json"
+    }
+  }  
+}
