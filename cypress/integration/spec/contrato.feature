@@ -9,7 +9,7 @@ Feature: test usuarios json-schema
         When post users of type "<type>" from /usuarios
         Then must be responsed the schema "<schema>" with status <status>
         Examples:
-            | type    | schema                    | status |
-            | valid   | post-usuarios             | 201    |
-            | invalid | post-usuarios             | 400    |
+            | type    | schema                     | status |
+            | valid   | post-usuarios              | 201    |
+            | invalid | post-usuarios              | 400    |
             | empty   | post-usuarios/empty-values | 400    |
