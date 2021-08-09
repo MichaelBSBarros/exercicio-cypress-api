@@ -6,5 +6,5 @@ Feature: test login json-schema
         Examples:
             | type    | schema                  | status |
             | valid   | post-login              | 200    |
-            | invalid | post-login              | 401    |
+            | invalid | post-login              | 400    |
             | empty   | post-login/empty-values | 400    |
