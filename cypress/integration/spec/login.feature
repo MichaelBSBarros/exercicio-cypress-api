@@ -2,9 +2,9 @@ Feature: test login json-schema
 
     Scenario Outline: post-login
         When sign in with users type "<type>"
-        Then must be responsed the schema "post-login" with status <status>
+        Then must be responsed the schema "<schema>" with status <status>
         Examples:
-            | type    | status |
-            | valid   | 200    |
-            | invalid | 400    |
-           #| empty   | 400    |
+            | type    | schema                  | status |
+            | valid   | post-login              | 200    |
+            | invalid | post-login              | 401    |
+            | empty   | post-login/empty-values | 400    |
