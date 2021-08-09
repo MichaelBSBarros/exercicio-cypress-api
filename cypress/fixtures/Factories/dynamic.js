@@ -22,13 +22,13 @@ export default class DynamicFactory {
                     "administrador": "true",
                 }
 
-                case 'empty':
-                    return {
-                        "nome": "",
-                        "email": "",
-                        "password": "",
-                        "administrador": "",
-                    }
+                //case 'empty':
+                //    return {
+                //        "nome": "",
+                //        "email": "",
+                //        "password": "",
+                //        "administrador": "",
+                //    }
 
             default:
                 return { notfound: "The user type was not found, please verify!" }

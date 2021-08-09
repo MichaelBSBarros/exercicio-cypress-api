@@ -2,6 +2,6 @@
     "baseUrl": "https://serverest.dev",
     "env":{
         "global_timeout": 30000,
-        "enviroment": "API"
+        "enviroment": "WEB"
     }
 }
