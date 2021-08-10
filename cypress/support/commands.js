@@ -42,3 +42,8 @@ Cypress.Commands.add('contractValidation',(res, schema, status ) =>{
     return true
     })
 })
+
+Cypress.Commands.add('stepInDevelopment', () => {
+    console.log("Step in development process!");
+    cy.log("Step in development process!")
+})
