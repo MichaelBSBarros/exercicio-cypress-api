@@ -33,19 +33,3 @@ When(`delete users of type {string} from /usuarios`, (typeUser) => {
 });
 
 
-Then(`must be responsed the schema {string} with status {int}`, (schema, status) => {
-	cy.get('@Response').then( res => {
-		cy.contractValidation( res, schema, status ).then( valid => {
-			expect(valid).to.be.true
-			expect(res.status).to.equal(status)
-			cy.log(res.body.message)
-		})
-	})
-});
-
-Then(`must return the message {string}`, (message) => {
-	//cy.get('@Response').then( res => {
-	//	expect(res.body.message).to.equal(message)
-	//})
-	cy.stepInDevelopment()
-});

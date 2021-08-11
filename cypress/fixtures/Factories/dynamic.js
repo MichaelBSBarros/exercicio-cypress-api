@@ -27,12 +27,35 @@ export default class DynamicFactory {
                     "administrador": admin.toString(),
                 }
 
-                case 'empty':
+                case 'empty_name':
                     return {
                         "nome": "",
+                        "email": faker.internet.email(),//email será repetido
+                        "password": faker.internet.password(),
+                        "administrador": admin.toString(),
+                    }
+                case 'empty_email':
+                    return {
+                        "nome": `${faker.name.firstName()} ${faker.name.lastName()}`,
                         "email": "",
+                        "password": faker.internet.password(),
+                        "administrador": admin.toString(),
+                    }
+
+                case 'empty_password':
+                    return {
+                        "nome": `${faker.name.firstName()} ${faker.name.lastName()}`,
+                        "email": faker.internet.email(),//email será repetido
                         "password": "",
-                        "administrador": "",
+                        "administrador": admin.toString(),
+                    }
+                
+                case 'empty_administrator':
+                    return {
+                        "nome": `${faker.name.firstName()} ${faker.name.lastName()}`,
+                        "email": faker.internet.email(),//email será repetido
+                        "password": faker.internet.password(),
+                        "administrador": ""
                     }
 
             default:

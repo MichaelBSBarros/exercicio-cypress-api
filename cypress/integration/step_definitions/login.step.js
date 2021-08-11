@@ -11,11 +11,4 @@ When(`sign in with users type {string}`, (typeUser) => {
 	})
 });
 
-Then(`must be responsed the schema {string} showing status {int}`, (schema, status) => {
-	cy.get('@Response').then( res => {
-		cy.contractValidation( res, schema, status ).then( valid => {
-            expect(valid).to.be.true    
-        })
-    expect(res.status).to.equal(status)    
-	})
-});
+

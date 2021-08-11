@@ -191,7 +191,7 @@ export class ServeRest extends Rest {
                     userID = res.body._id
                     temp_url = `${URL_USERS}/${userID}`
                 
-                    return super.httpRequestWithBody('DELETE', temp_url, body)
+                    super.httpRequestWithoutBody('DELETE', temp_url)
                     
                 })
         }

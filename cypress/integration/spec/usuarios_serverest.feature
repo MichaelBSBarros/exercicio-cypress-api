@@ -12,13 +12,16 @@ Feature: test 'usuarios' rout from ServeRest
 
     Scenario Outline: post-usuarios
         When post users of type "<type>" from /usuarios
-        Then must be responsed the schema "<schema>" with status <status>
-        And must return the message "<message>"
+        Then must be responsed the schema "post-usuarios" with status <status>
+        And must return the property "<property>" with message "<message>"
         Examples:
-            | type    | schema                     | status | message                        |
-            | valid   | post-usuarios              | 201    | Cadastro realizado com sucesso |
-            | invalid | post-usuarios              | 400    | Este email já está sendo usado |
-            | empty   | post-usuarios/empty-values | 400    |                                |
+            | type                | status | property      | message                                  |
+            | valid               | 201    | message       | Cadastro realizado com sucesso           |
+            | invalid             | 400    | message       | Este email já está sendo usado           |
+            | empty_name          | 400    | nome          | nome não pode ficar em branco            |
+            | empty_email         | 400    | email         | email não pode ficar em branco           |
+            | empty_password      | 400    | password      | password não pode ficar em branco        |
+            | empty_administrator | 400    | administrador | administrador deve ser 'true' ou 'false' |
 
     Scenario Outline: put-usuarios
         When edit users of type "<type>" from /usuarios
