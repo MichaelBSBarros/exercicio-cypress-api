@@ -36,7 +36,7 @@ Feature: test 'usuarios' rout from ServeRest
         Then must be responsed the schema "<schema>" with status <status>
         And must return the message "<message>"
         Examples:
-            | type      | schema                       | status | message                       |
-            | valid     | delete-usuarios              | 200    | Registro excluído com sucesso |
-            | invalid   | delete-usuarios              | 200    | Nenhum registro excluído      |
-            | with_cart | delete-usuarios/empty-values | 400    |                               |
+            | type      | schema          | status | message                       |
+            | valid     | delete-usuarios | 200    | Registro excluído com sucesso |
+            | invalid   | delete-usuarios | 200    | Nenhum registro excluído      |
+            | with_cart | delete-usuarios | 400    |                               |

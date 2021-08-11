@@ -82,6 +82,26 @@ export default class DynamicFactory {
 
         }
     }
+
+    static postProd(){
+        return {
+            "nome": faker.commerce.productName(),
+            "preco": faker.datatype.number({'min': 10, 'max': 999}),
+            "descricao": faker.commerce.productDescription(),
+            "quantidade": faker.datatype.number({'min': 1000, 'max': 9999}),
+          }
+    }
+
+    static postCart(prodID){
+        return {
+            "produtos": [
+              {
+                "idProduto": prodID,
+                "quantidade": faker.datatype.number({'min': 1, 'max': 10}),
+              }
+            ]
+          }
+    }
 }
 
 

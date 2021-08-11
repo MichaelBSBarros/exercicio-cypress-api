@@ -1,12 +1,13 @@
 export default class Rest {
 
-    static httpRequestWithBody(method, endpoint, body, failOnStatusCode = false, timeout = Cypress.env('global_timeout')){
+    static httpRequestWithBody(method, endpoint, body, headers = null, failOnStatusCode = false, timeout = Cypress.env('global_timeout')){
         return cy.request({
             method: method, 
             url: endpoint, 
             body: body, 
             failOnStatusCode: failOnStatusCode, 
-            timeout: timeout
+            timeout: timeout,
+            headers: headers  //  para gerar autenticação: headers = null; headers: headers
         })
     }
     

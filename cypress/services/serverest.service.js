@@ -4,6 +4,8 @@ import Factory from '../fixtures/factories/factory'
 
 const URL_USERS = '/usuarios'
 const URL_LOGIN = '/login'
+const URL_PRODUTOS = '/produtos'
+const URL_CARRINHO = '/carrinhos'
 
 export class ServeRest extends Rest {
 
@@ -43,7 +45,8 @@ export class ServeRest extends Rest {
         }        
     }  
 
-    static post_users_by_type(typeUser){
+    static post_users_by_type(typeUser){ 
+        // corrigir: quando iniciar o serverest do 0, ele exibe 201, não 400
         let body = DynamicFactory.criarUsuario(typeUser)
         return super.httpRequestWithBody('POST', URL_USERS, body)
     }
@@ -120,6 +123,9 @@ export class ServeRest extends Rest {
     static delete_users(typeUser){
     
     var userID
+    var prodID
+    var userEmail
+    var userPassword
     var temp_url
     let body
 
@@ -150,17 +156,35 @@ export class ServeRest extends Rest {
             case 'with_cart':
 
                 body = DynamicFactory.criarUsuario('valid')
+
+                userEmail = body.email
+                userPassword = body.password
+
                 super.httpRequestWithBody('POST', URL_USERS, body).then( post_response =>{
                     cy.wrap(post_response).as('Response')
-                })
-            
+    
+                    body = Factory.standardUser('new_user_login', userEmail, userPassword)
+                    super.httpRequestWithBody('POST', URL_LOGIN, body).then( post_login_res =>{
+                       let userAuth = post_login_res.body.authorization
+
+                       body = DynamicFactory.postProd()
+                       super.httpRequestWithBody('POST', URL_PRODUTOS, body, { authorization: userAuth }).then(post_prod_response =>{
+                        prodID = post_prod_response.body._id
+
+                        body = DynamicFactory.postCart(prodID)
+                        super.httpRequestWithBody('POST', URL_CARRINHO, body, { authorization: userAuth })
+
+                       })
+                   })         
+                })           
+
                 return cy.get('@Response').then( res => {
                 
-                userID = res.body._id
-                temp_url = `${URL_USERS}/${userID}`
-            
-                return super.httpRequestWithBody('DELETE', temp_url, body)
+                    userID = res.body._id
+                    temp_url = `${URL_USERS}/${userID}`
                 
+                    return super.httpRequestWithBody('DELETE', temp_url, body)
+                    
                 })
         }
     }
