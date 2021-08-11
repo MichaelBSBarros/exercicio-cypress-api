@@ -2,13 +2,27 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "required": [
-        "quantidade",
-        "usuarios"
+
     ],
     "properties": {
         "quantidade": {
             "type": "integer"
         },
+        "nome": {
+            "type": "string"
+        },
+        "email": {
+            "type": "string"
+        },
+        "password": {
+            "type": "string"
+        },
+        "administrador": {
+            "type": "string"
+        },
+        "_id": {
+            "type": "string"
+        },        
         "usuarios": {
             "type": "array",
             "additionalItems": true,
