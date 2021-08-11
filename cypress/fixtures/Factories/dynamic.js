@@ -88,7 +88,7 @@ export default class DynamicFactory {
             "nome": faker.commerce.productName(),
             "preco": faker.datatype.number({'min': 10, 'max': 999}),
             "descricao": faker.commerce.productDescription(),
-            "quantidade": faker.datatype.number({'min': 1000, 'max': 9999}),
+            "quantidade": faker.datatype.number({'min': 1, 'max': 1}),
           }
     }
 
@@ -97,7 +97,7 @@ export default class DynamicFactory {
             "produtos": [
               {
                 "idProduto": prodID,
-                "quantidade": faker.datatype.number({'min': 1, 'max': 10}),
+                "quantidade": faker.datatype.number({'min': 1, 'max': 1}),
               }
             ]
           }
