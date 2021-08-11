@@ -46,8 +46,16 @@ export class ServeRest extends Rest {
     }  
 
     static post_users_by_type(typeUser){ 
-        // corrigir: quando iniciar o serverest do 0, ele exibe 201, não 400
+
         let body = DynamicFactory.criarUsuario(typeUser)
+
+        if(typeUser == 'invalid'){    
+            var userEmail = body.email        
+            super.httpRequestWithBody('POST', URL_USERS, body)
+            body = DynamicFactory.criarUsuario(typeUser)
+            body.email = userEmail
+        }
+
         return super.httpRequestWithBody('POST', URL_USERS, body)
     }
 

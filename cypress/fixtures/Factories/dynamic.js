@@ -21,10 +21,10 @@ export default class DynamicFactory {
 
             case 'invalid':
                 return {
-                    "nome": "Fulano da Silva",
-                    "email": "beltrano@qa.com.br",
-                    "password": "teste",
-                    "administrador": "true",
+                    "nome": `${faker.name.firstName()} ${faker.name.lastName()}`,
+                    "email": faker.internet.email(),//email será repetido
+                    "password": faker.internet.password(),
+                    "administrador": admin.toString(),
                 }
 
                 case 'empty':
