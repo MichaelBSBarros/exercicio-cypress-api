@@ -5,34 +5,20 @@ import Factory from '../fixtures/factories/factory'
 const URL_USERS = '/usuarios'
 const URL_LOGIN = '/login'
 const URL_PRODUTOS = '/produtos'
-const URL_CARRINHO = '/carrinhos'
-
-function construirUrl(response, rota) {
-    let userID = response.body._id
-    let temp_url = `${rota}/${userID}`
-    return temp_url
-}
+const URL_CARRINHOS = '/carrinhos'
 
 export class ServeRest extends Rest {
-
-    static userEmtyProp(typeUser, verb) {
-        let userID = DynamicFactory.geradorID()
-        let body = DynamicFactory.editarUsuario(typeUser)
-        let temp_url = `${URL_USERS}/${userID}`
-        return super.httpRequestWithBody(verb, temp_url, body)        
-    }
 
     static get_users(userOptions){
         
         var userID = ''
         switch(userOptions){
             case 'user_by_valid_id':
-                let body = DynamicFactory.criarUsuario('valid')
-                super.httpRequestWithBody('POST', URL_USERS, body).then( post_response =>{
+                super.responseCriarUsuario('valid', 'POST', URL_USERS).then( post_response =>{
                     cy.wrap(post_response).as('Response')
                 })            
                 return cy.get('@Response').then( res => {                
-                    let temp_url = construirUrl(res, URL_USERS)
+                    let temp_url = super.construirUrl(res, URL_USERS)
                     return super.httpRequestWithoutBody('GET', temp_url)               
                 })        
             
@@ -57,37 +43,30 @@ export class ServeRest extends Rest {
 
     static put_users_by_type(typeUser){
 
-        var temp_url
-        var userEmail
-        let body
-
         switch (typeUser) {
             case 'valid':
-                body = DynamicFactory.criarUsuario('valid')
-                super.httpRequestWithBody('POST', URL_USERS, body).then( post_response =>{
+                super.responseCriarUsuario('valid', 'POST', URL_USERS).then( post_response =>{
                     cy.wrap(post_response).as('Response')
                 })
                 return cy.get('@Response').then( res => {
-                    temp_url = construirUrl(res, URL_USERS)
+                    var temp_url = super.construirUrl(res, URL_USERS)
                     body = DynamicFactory.editarUsuario(typeUser)
                     return super.httpRequestWithBody('PUT', temp_url, body)
                 })
                 break;
 
             case 'nonexistent':
-                return ServeRest.userEmtyProp(typeUser, 'PUT')   
+                return super.userEmtyProperties(typeUser, URL_USERS, 'PUT')   
                 break;
 
             case 'invalid':
-                body = DynamicFactory.criarUsuario('valid')
-                super.httpRequestWithBody('POST', URL_USERS, body)
-                userEmail = body.email
-                body = DynamicFactory.criarUsuario('valid')
-                super.httpRequestWithBody('POST', URL_USERS, body).then( post_response =>{
+                let body = super.requestCriarUsuario('valid', 'POST', URL_USERS)
+                var userEmail = body.email
+                super.responseCriarUsuario('valid', 'POST', URL_USERS).then( post_response =>{
                     cy.wrap(post_response).as('Response')
                 })
                 return cy.get('@Response').then( res => {
-                    temp_url = construirUrl(res, URL_USERS)
+                    var temp_url = super.construirUrl(res, URL_USERS)
                     body = DynamicFactory.editarUsuario(typeUser)
                     body.email = userEmail
                     return super.httpRequestWithBody('PUT', temp_url, body)
@@ -95,19 +74,19 @@ export class ServeRest extends Rest {
                 break;
 
             case 'empty_name':
-                return ServeRest.userEmtyProp(typeUser, 'PUT')   
+                return super.userEmtyProperties(typeUser, URL_USERS, 'PUT')   
                 break;
                   
             case 'empty_email':
-                return ServeRest.userEmtyProp(typeUser, 'PUT')   
+                return super.userEmtyProperties(typeUser, URL_USERS, 'PUT')   
                 break;   
 
             case 'empty_password':
-                return ServeRest.userEmtyProp(typeUser, 'PUT')   
+                return super.userEmtyProperties(typeUser, URL_USERS, 'PUT')   
                 break;
 
             case 'empty_administrator':
-                return ServeRest.userEmtyProp(typeUser, 'PUT')   
+                return super.userEmtyProperties(typeUser, URL_USERS, 'PUT')   
                 break;
     
             default: 'Missing the user type!'
@@ -124,7 +103,7 @@ export class ServeRest extends Rest {
                     cy.wrap(post_response).as('Response')
                 })            
                 return cy.get('@Response').then( res => {                
-                    let temp_url = construirUrl(res, URL_USERS)            
+                    let temp_url = super.construirUrl(res, URL_USERS)            
                     return super.httpRequestWithBody('DELETE', temp_url, body)                
                 })
                 break;
@@ -142,22 +121,16 @@ export class ServeRest extends Rest {
 
                 super.httpRequestWithBody('POST', URL_USERS, body).then( post_response =>{
                     cy.wrap(post_response).as('Response')
-
-                    let body = Factory.standardUser('new_user_login', userEmail, userPassword)
-                    super.httpRequestWithBody('POST', URL_LOGIN, body).then( post_login_res =>{
-                       let userAuth = post_login_res.body.authorization
-
-                       body = DynamicFactory.postProd()
-                       super.httpRequestWithBody('POST', URL_PRODUTOS, body, { authorization: userAuth }).then(post_prod_response =>{
-                        let prodID = post_prod_response.body._id
-
-                        body = DynamicFactory.postCart(prodID)
-                        super.httpRequestWithBody('POST', URL_CARRINHO, body, { authorization: userAuth })
-                       })
-                   })         
+                    super.responseLoginAuth(userEmail, userPassword, URL_LOGIN).then( login_resp =>{
+                        let userAuth = login_resp.body.authorization
+                        super.responseCriarProduto(URL_PRODUTOS, userAuth).then( prod_resp =>{
+                            let prodID = prod_resp.body._id
+                            super.responsePostCarrinho(prodID, URL_CARRINHOS, userAuth)
+                        })
+                    })         
                 })
                 return cy.get('@Response').then( res => {                
-                    temp_url = construirUrl(res, URL_USERS)                
+                    temp_url = super.construirUrl(res, URL_USERS)                
                     super.httpRequestWithoutBody('DELETE', temp_url)                    
                 })
         }

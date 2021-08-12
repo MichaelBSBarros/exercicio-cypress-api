@@ -13,13 +13,6 @@ export default class DynamicFactory {
         switch(typeUser){
 
             case 'valid':
-                return {
-                    "nome": `${faker.name.firstName()} ${faker.name.lastName()}`,
-                    "email": faker.internet.email(),
-                    "password": faker.internet.password(),
-                    "administrador": admin.toString(),
-                }
-
             case 'invalid':
                 return {
                     "nome": `${faker.name.firstName()} ${faker.name.lastName()}`,
@@ -70,60 +63,43 @@ export default class DynamicFactory {
         switch(typeUser){
 
             case 'valid':
-                return {
-                    "nome": `${faker.name.firstName()} ${faker.name.lastName()}`,
-                    "email": faker.internet.email(),
-                    "password": faker.internet.password(),
-                    "administrador": admin.toString(),
-                }
-
             case 'invalid':
+            case 'nonexistent':
                 return {
                     "nome": `${faker.name.firstName()} ${faker.name.lastName()}`,
                     "email": faker.internet.email(),
                     "password": faker.internet.password(),
                     "administrador": admin.toString(),
                 }
-
-                case 'nonexistent':
-                    return {
-                        "nome": `${faker.name.firstName()} ${faker.name.lastName()}`,
-                        "email": faker.internet.email(),
-                        "password": faker.internet.password(),
-                        "administrador": admin.toString(),
-                    }
-
-                case 'empty_name':
-                    return {
-                        "nome": "",
-                        "email": faker.internet.email(),
-                        "password": faker.internet.password(),
-                        "administrador": admin.toString(),
-                    }
-
-                case 'empty_email':
-                    return {
-                        "nome": `${faker.name.firstName()} ${faker.name.lastName()}`,
-                        "email": "",
-                        "password": faker.internet.password(),
-                        "administrador": admin.toString(),
-                    }
-
-                case 'empty_password':
-                    return {
-                        "nome": `${faker.name.firstName()} ${faker.name.lastName()}`,
-                        "email": faker.internet.email(),
-                        "password": "",
-                        "administrador": admin.toString(),
-                    }
-                
-                case 'empty_administrator':
-                    return {
-                        "nome": `${faker.name.firstName()} ${faker.name.lastName()}`,
-                        "email": faker.internet.email(),
-                        "password": faker.internet.password(),
-                        "administrador": "",
-                    }
+            case 'empty_name':
+                return {
+                    "nome": "",
+                    "email": faker.internet.email(),
+                    "password": faker.internet.password(),
+                    "administrador": admin.toString(),
+                }
+            case 'empty_email':
+                return {
+                    "nome": `${faker.name.firstName()} ${faker.name.lastName()}`,
+                    "email": "",
+                    "password": faker.internet.password(),
+                    "administrador": admin.toString(),
+                }
+            case 'empty_password':
+                return {
+                    "nome": `${faker.name.firstName()} ${faker.name.lastName()}`,
+                    "email": faker.internet.email(),
+                    "password": "",
+                    "administrador": admin.toString(),
+                }
+            
+            case 'empty_administrator':
+                return {
+                    "nome": `${faker.name.firstName()} ${faker.name.lastName()}`,
+                    "email": faker.internet.email(),
+                    "password": faker.internet.password(),
+                    "administrador": "",
+                }
 
             default:
                 return { notfound: "The user type was not found, please verify!" }

@@ -26,6 +26,7 @@ When(`delete users of type {string} from /usuarios`, (typeUser) => {
 	})
 });
 
+
 Then(`must return the property {string} greater than {int}`, (property, comparativeValue) => {
     cy.get('@Response').then( res => {
 	    expect(res.body[property]).to.greaterThan(comparativeValue)
