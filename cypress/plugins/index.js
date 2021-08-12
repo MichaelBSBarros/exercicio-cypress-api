@@ -18,6 +18,6 @@ module.exports = (on, config) => {
     return launchOptions
   })
  
-  const file = config.env.configFile || 'web'
+  const file = config.env.configFile || 'local'
   return getConfigurationByFile(file)
 }
