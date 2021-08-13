@@ -10,9 +10,9 @@ Feature: test 'usuarios' rout from ServeRest
         Then must be responsed the schema "<schema>" with status <status>
         And must return the property "<property>" with message "<message>"
         Examples:
-            | userOptions        | schema       | status | property | message                |
-            | user_by_valid_id   | get-usuarios | 200    | administrador | true              |
-            | user_by_invalid_id | get-usuarios | 400    | message  | Usuário não encontrado |
+            | userOptions        | schema       | status | property      | message                |
+            | user_by_valid_id   | get-usuarios | 200    | administrador | true                   |
+            | user_by_invalid_id | get-usuarios | 400    | message       | Usuário não encontrado |
 
     Scenario Outline: POST users type "<type>"
         When post users of type "<type>" from /usuarios

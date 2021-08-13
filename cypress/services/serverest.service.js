@@ -123,7 +123,7 @@ export class ServeRest extends Rest {
                     cy.wrap(post_response).as('Response')
                     super.responseLoginAuth(userEmail, userPassword, URL_LOGIN).then( login_resp =>{
                         let userAuth = login_resp.body.authorization
-                        super.responseCriarProduto(URL_PRODUTOS, userAuth).then( prod_resp =>{
+                        super.responseCriarProduto('valid', URL_PRODUTOS, userAuth).then( prod_resp =>{
                             let prodID = prod_resp.body._id
                             super.responsePostCarrinho(prodID, URL_CARRINHOS, userAuth)
                         })

@@ -7,9 +7,6 @@
     "properties": {
         "message": {
             "type": "string"
-        },
-        "idCarrinho": {
-            "type": "string"
         }
     },
     "additionalProperties": true

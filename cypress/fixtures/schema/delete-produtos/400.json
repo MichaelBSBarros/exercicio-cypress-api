@@ -2,14 +2,19 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "required": [
-
+        "message",
+        "idCarrinhos"
     ],
     "properties": {
         "message": {
             "type": "string"
         },
-        "idCarrinho": {
-            "type": "string"
+        "idCarrinhos": {
+            "type": "array",
+            "additionalItems": true,
+            "items": {
+                "type": "string"
+            }
         }
     },
     "additionalProperties": true

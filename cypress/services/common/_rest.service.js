@@ -14,12 +14,13 @@ export default class Rest {
         })
     }
     
-    static httpRequestWithoutBody(method, endpoint, failOnStatusCode = false, timeout = Cypress.env('global_timeout')){
+    static httpRequestWithoutBody(method, endpoint,  headers = null, failOnStatusCode = false, timeout = Cypress.env('global_timeout')){
         return cy.request({
             method: method, 
             url: endpoint, 
             failOnStatusCode: failOnStatusCode, 
-            timeout: timeout
+            timeout: timeout,
+            headers: headers
         })
     }
 
@@ -53,13 +54,83 @@ export default class Rest {
         
     }
 
-    static responseCriarProduto(temp_url, userAuth) {
-        let body = DynamicFactory.postProd()
+    static responseCriarProduto(typeProd, temp_url, userAuth) {
+        let body = DynamicFactory.postProd(typeProd)
         return Rest.httpRequestWithBody('POST', temp_url, body, { authorization: userAuth })
+    }
+
+    static responsePutProduto(typeProd, userAuth) {
+
+        let body = DynamicFactory.postProd(typeProd)
+        Rest.httpRequestWithBody('POST', '/produtos', body, { authorization: userAuth }).then( prod_resp =>{
+            cy.wrap(prod_resp).as('Response')
+        })
+        return cy.get('@Response').then( res => {
+            let prodID = res.body._id
+            let temp_url = `${'/produtos'}/${prodID}`
+            body = DynamicFactory.postProd(typeProd)
+            return Rest.httpRequestWithBody('PUT', temp_url, body, { authorization: userAuth })
+        })
+
+    }
+
+    static responseDeleteProduto(typeProd, userAuth) {
+
+        Rest.responseCriarProduto(typeProd, '/produtos', userAuth).then( post_response => {
+            cy.wrap(post_response).as('Response')
+        })
+        return cy.get('@Response').then(res => {                
+            var prodID = res.body._id
+            let temp_url = `${'/produtos'}/${prodID}`
+            Rest.httpRequestWithoutBody('DELETE', temp_url, { authorization: userAuth })                                
+        })
+
     }
 
     static responseLoginAuth(userEmail, userPassword, temp_url) {
         let body = Factory.standardUser('new_user_login', userEmail, userPassword)
         return Rest.httpRequestWithBody('POST', temp_url, body)
+    }
+
+    static criarProdutoComToken(typeProd){
+
+        let body = DynamicFactory.criarUsuario('valid')
+        let userEmail = body.email
+        let userPassword = body.password
+
+        Rest.httpRequestWithBody('POST', '/usuarios', body)
+        Rest.responseLoginAuth(userEmail, userPassword, '/login').then( login_resp =>{
+            let userAuth = login_resp.body.authorization
+            Rest.responseCriarProduto(typeProd, '/produtos', userAuth).then( prod_resp =>{
+                cy.wrap(prod_resp).as('Response')                
+            })
+        })        
+        return cy.get('@Response')
+    }
+
+    static criarUsuarioEAutenticar(user_authentication, user_permissions){
+
+        let body
+
+        switch(user_permissions){
+            case 'with_permissions':
+                body = DynamicFactory.criarUsuario('valid')
+                break;
+            
+            case 'no_permissions':
+                body = DynamicFactory.criarUsuario('no_permissions')
+                break;
+        }        
+
+        let userEmail = body.email
+        let userPassword = body.password
+
+        Rest.httpRequestWithBody('POST', '/usuarios', body)
+        return Rest.responseLoginAuth(userEmail, userPassword, '/login').then( login_resp =>{
+            if (user_authentication == 'non-authenticated'){
+                login_resp.body.authorization = 'invalid'
+            }
+            cy.wrap(login_resp).as('Response')
+        })            
     }
 }
