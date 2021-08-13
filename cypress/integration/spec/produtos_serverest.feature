@@ -5,9 +5,9 @@ Feature: test 'produtos' rout from ServeRest
         Then must be responsed the schema "get-produtos" with status 200
         And must return the property "<property>" greater than <comparativeValue>
         Examples:
-            | productOptions      | schema       | status | property   | comparativeValue |
-            | all_products        | get-produtos | 200    | quantidade | 1                |
-            | product_by_valid_id | get-produtos | 200    | quantidade | -1               |
+            | productOptions      | property   | comparativeValue |
+            | all_products        | quantidade | 1                |
+            | product_by_valid_id | quantidade | -1               |
 
     Scenario: GET "product_by_invalid_id"
         When request "product_by_invalid_id" from /produtos

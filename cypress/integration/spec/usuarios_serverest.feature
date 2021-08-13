@@ -7,12 +7,12 @@ Feature: test 'usuarios' rout from ServeRest
 
     Scenario Outline: GET "<userOptions>"
         When request "<userOptions>" from /usuarios
-        Then must be responsed the schema "<schema>" with status <status>
+        Then must be responsed the schema "get-usuarios" with status <status>
         And must return the property "<property>" with message "<message>"
         Examples:
-            | userOptions        | schema       | status | property      | message                |
-            | user_by_valid_id   | get-usuarios | 200    | administrador | true                   |
-            | user_by_invalid_id | get-usuarios | 400    | message       | Usuário não encontrado |
+            | userOptions        | status | property      | message                |
+            | user_by_valid_id   | 200    | administrador | true                   |
+            | user_by_invalid_id | 400    | message       | Usuário não encontrado |
 
     Scenario Outline: POST users type "<type>"
         When post users of type "<type>" from /usuarios
@@ -43,10 +43,10 @@ Feature: test 'usuarios' rout from ServeRest
 
     Scenario Outline: DELETE users type "<type>"
         When delete users of type "<type>" from /usuarios
-        Then must be responsed the schema "<schema>" with status <status>
+        Then must be responsed the schema "delete-usuarios" with status <status>
         And must return the property "<property>" with message "<message>"
         Examples:
-            | type      | schema          | status | property | message                                                 |
-            | valid     | delete-usuarios | 200    | message  | Registro excluído com sucesso                           |
-            | invalid   | delete-usuarios | 200    | message  | Nenhum registro excluído                                |
-            | with_cart | delete-usuarios | 400    | message  | Não é permitido excluir usuário com carrinho cadastrado |
+            | type      | status | property | message                                                 |
+            | valid     | 200    | message  | Registro excluído com sucesso                           |
+            | invalid   | 200    | message  | Nenhum registro excluído                                |
+            | with_cart | 400    | message  | Não é permitido excluir usuário com carrinho cadastrado |
