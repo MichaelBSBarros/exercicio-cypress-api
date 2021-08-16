@@ -6,7 +6,7 @@ Feature: test 'produtos' rout from ServeRest
         And must return the property "<property>" greater than <comparativeValue>
         Examples:
             | productOptions      | property   | comparativeValue |
-            | all_products        | quantidade | 1                |
+            | all_products        | quantidade | 0                |
             | product_by_valid_id | quantidade | -1               |
 
     Scenario: GET "product_by_invalid_id"

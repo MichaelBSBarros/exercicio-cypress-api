@@ -14,12 +14,17 @@ export class productServeRest extends Rest {
         var prodID = ''
         switch(productOptions){
             case 'product_by_valid_id':            
-                super.criarProdutoComToken('valid').then( res => {                
-                    prodID = res.body._id                
+                super.criarProdutoComToken('valid').then( prod_response => {                             
+                    cy.wrap(prod_response).as("prod_response")
                 })
+            return cy.get("@prod_response").then( prod_response => {
+                prodID = prod_response.body._id   
+                let temp_url = `${URL_PRODUTOS}/${prodID}`
+                super.httpRequestWithoutBody('GET', temp_url)
+            })    
             break;
             case 'product_by_invalid_id':
-                var prodID = DynamicFactory.geradorID()
+                prodID = DynamicFactory.geradorID()
             break;
         }
         let temp_url = `${URL_PRODUTOS}/${prodID}` 

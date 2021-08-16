@@ -133,4 +133,17 @@ export default class Rest {
             cy.wrap(login_resp).as('Response')
         })            
     }
+
+    static criarProdEAddCarrinho(userAuth){
+        Rest.responseCriarProduto('valid', '/produtos', userAuth).then( prod_response => {
+            var prodID = prod_response.body._id
+            Rest.responsePostCarrinho(prodID, '/carrinhos', userAuth).then( cart_response => {
+                cy.wrap(cart_response).as('cart_response')
+                var cartID = cart_response.body._id
+                cy.log(cartID)    
+            })
+        })
+        return cy.get('@cart_response')
+    }
+    
 }
